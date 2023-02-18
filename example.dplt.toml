@@ -1,0 +1,14 @@
+[remote]
+type = "S3"
+url = ""
+username = ""
+password = ""
+access_key = ""
+
+[[files]]
+filename = "something.txt"
+directory = "./"
+
+[[files]]
+filename = "something.json"
+directory = "./"
