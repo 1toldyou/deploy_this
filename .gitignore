@@ -1,2 +1,8 @@
 # build
 /target
+
+# user's file
+*.dplt.toml
+
+# example file
+!example.dplt.toml

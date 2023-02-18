@@ -2,14 +2,43 @@ mod config_file;
 
 use std::error::Error;
 use std::fs;
+use std::process::exit;
+
+use clap::{Parser};
 
 use crate::config_file::ConfigFileV1;
+
+#[derive(Parser)]
+struct ClapCli {
+    #[arg(default_value = "dev")]
+    mode: String,
+}
 
 fn main() {
     println!("Hello, world!");
 
     let the_config = read_config_file("example.dplt.toml").expect("failed to read the file");
     println!("{:?}", the_config);
+
+    let clap_args = ClapCli::parse();
+
+    match clap_args.mode.to_owned().as_str() {
+        "init" => {
+
+        },
+        "publish" => {
+            eprintln!("Not Yet Implemented: publish");
+            exit(1);
+        },
+        "get" => {
+            eprintln!("Not Yet Implemented: get");
+            exit(1);
+        },
+        _ => {
+            eprintln!("Invalid Mode!");
+            exit(1);
+        }
+    }
 }
 
 fn read_config_file(filepath: &str) -> Result<ConfigFileV1, Box<dyn Error>> {
