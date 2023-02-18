@@ -14,21 +14,21 @@ pub fn init_config_file(filename: &str) -> Result<(), Box<dyn Error>> {
         },
         files: vec![
             config_file::File{
+                key: String::from("1.txt"),
                 filename: String::from("1.txt"),
-                directory: String::from("./")
+                directory: String::from("./"),
+                version: String::from("2023.2.18"),
             }
         ],
     };
 
-    println!("{:?}", example_config);
+    // println!("{:?}", example_config);
 
     let toml_string = toml::to_string_pretty::<config_file::ConfigFileV1>(&example_config)?;
 
-    println!("{:?}", toml_string);
+    // println!("{:?}", toml_string);
 
     // write the string to the file
-
-
     fs::write(filename, toml_string)?;
 
     Ok(())

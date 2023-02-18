@@ -19,12 +19,13 @@ struct ClapCli {
 fn main() {
     println!("Hello, world!");
 
-    let the_config = read_config_file("example.dplt.toml").expect("failed to read the file");
-    println!("{:?}", the_config);
-
     let clap_args = ClapCli::parse();
 
     match clap_args.mode.to_owned().as_str() {
+        "generate-example" => {
+            init_config_file("example.dplt.toml").expect("failed to generate example.dplt.toml");
+            exit(0);
+        },
         "init" => {
             init_config_file("dplt.toml").expect("failed to init dplt.toml");
             exit(0);
@@ -38,8 +39,10 @@ fn main() {
             exit(1);
         },
         _ => {
-            eprintln!("Invalid Mode!");
-            exit(1);
+            println!("Default Mode!");
+            let the_config = read_config_file("example.dplt.toml").expect("failed to read the file");
+            println!("{:?}", the_config);
+            exit(0);
         }
     }
 }

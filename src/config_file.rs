@@ -18,6 +18,8 @@ pub struct Remote {
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct File {
+    pub key: String,
     pub filename: String,
     pub directory: String,
+    pub version: String,
 }

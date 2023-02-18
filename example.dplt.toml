@@ -1,14 +1,12 @@
 [remote]
-type = "S3"
+type = "FTP"
 url = ""
 username = ""
 password = ""
 access_key = ""
 
 [[files]]
-filename = "something.txt"
+key = "1.txt"
+filename = "1.txt"
 directory = "./"
-
-[[files]]
-filename = "something.json"
-directory = "./"
+version = "2023.2.18"
