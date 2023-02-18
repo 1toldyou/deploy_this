@@ -7,3 +7,4 @@ dplt.toml
 
 # example file
 !example.dplt.toml
+/example-output-dir

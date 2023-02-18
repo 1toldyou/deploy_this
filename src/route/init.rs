@@ -16,7 +16,7 @@ pub fn init_config_file(filename: &str) -> Result<(), Box<dyn Error>> {
             config_file::File{
                 key: String::from("/something.txt"),
                 filename: String::from("something.txt"),
-                directory: String::from("./"),
+                directory: String::from("./example-output-dir/"),
                 version: String::from("2023.2.18"),
             }
         ],

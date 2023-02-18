@@ -18,6 +18,12 @@ pub fn get(config: &config_file::ConfigFileV1) -> Result<(), Box<dyn Error>> {
                 let mut file_content = Vec::new();
                 resp.copy_to(&mut file_content)?;
 
+                // create the directory if it doesn't exist
+                if !file.directory.is_empty() {
+                    println!("Directory: {}", file.directory);
+                    fs::create_dir_all(&file.directory)?;
+                }
+
                 let file_path = format!("{}{}", file.directory, file.filename);
                 println!("File Path: {}", file_path);
                 fs::write(file_path, file_content)?;

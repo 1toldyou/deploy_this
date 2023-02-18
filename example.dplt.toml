@@ -1,12 +1,12 @@
 [remote]
-type = "FTP"
-url = ""
+type = "HTTP"
+url = "https://gist.githubusercontent.com/1toldyou/44b6ee75f46da98259ddd258d3a6028c/raw"
 username = ""
 password = ""
 access_key = ""
 
 [[files]]
-key = "1.txt"
-filename = "1.txt"
-directory = "./"
+key = "/something.txt"
+filename = "something.txt"
+directory = "./example-output-dir/"
 version = "2023.2.18"
