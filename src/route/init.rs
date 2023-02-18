@@ -6,16 +6,16 @@ use crate::config_file;
 pub fn init_config_file(filename: &str) -> Result<(), Box<dyn Error>> {
     let example_config = config_file::ConfigFileV1 {
         remote: config_file::Remote {
-            type_: String::from("FTP"),
-            url: String::from(""),
+            type_: String::from("HTTP"),
+            url: String::from("https://gist.githubusercontent.com/1toldyou/44b6ee75f46da98259ddd258d3a6028c/raw"),
             username: String::from(""),
             password: String::from(""),
             access_key: String::from(""),
         },
         files: vec![
             config_file::File{
-                key: String::from("1.txt"),
-                filename: String::from("1.txt"),
+                key: String::from("/something.txt"),
+                filename: String::from("something.txt"),
                 directory: String::from("./"),
                 version: String::from("2023.2.18"),
             }

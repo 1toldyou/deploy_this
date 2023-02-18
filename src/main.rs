@@ -8,7 +8,6 @@ use std::process::exit;
 use clap::{Parser};
 
 use crate::config_file::ConfigFileV1;
-use crate::route::init::init_config_file;
 
 #[derive(Parser)]
 struct ClapCli {
@@ -24,11 +23,12 @@ fn main() {
     match clap_args.mode.to_owned().as_str() {
         "generate-example" => {
             println!("Generating example.dplt.toml");
-            init_config_file("example.dplt.toml").expect("failed to generate example.dplt.toml");
+            route::init::init_config_file("example.dplt.toml").expect("failed to generate example.dplt.toml");
             exit(0);
         },
         "init" => {
-            init_config_file("dplt.toml").expect("failed to init dplt.toml");
+            println!("Generating dplt.toml");
+            route::init::init_config_file("dplt.toml").expect("failed to init dplt.toml");
             exit(0);
         },
         "publish" => {
@@ -36,8 +36,9 @@ fn main() {
             exit(1);
         },
         "get" => {
-            eprintln!("Not Yet Implemented: get");
-            exit(1);
+            let config = read_config_file("dplt.toml").expect("failed to read the file");
+            route::get::get(&config).expect("failed to get");
+            exit(0);
         },
         _ => {
             println!("Default Mode!");
