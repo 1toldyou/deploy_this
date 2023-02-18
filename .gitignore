@@ -2,6 +2,7 @@
 /target
 
 # user's file
+dplt.toml
 *.dplt.toml
 
 # example file

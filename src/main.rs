@@ -1,4 +1,5 @@
 mod config_file;
+mod route;
 
 use std::error::Error;
 use std::fs;
@@ -7,10 +8,11 @@ use std::process::exit;
 use clap::{Parser};
 
 use crate::config_file::ConfigFileV1;
+use crate::route::init::init_config_file;
 
 #[derive(Parser)]
 struct ClapCli {
-    #[arg(default_value = "dev")]
+    #[arg(default_value = "init")]
     mode: String,
 }
 
@@ -24,7 +26,8 @@ fn main() {
 
     match clap_args.mode.to_owned().as_str() {
         "init" => {
-
+            init_config_file("dplt.toml").expect("failed to init dplt.toml");
+            exit(0);
         },
         "publish" => {
             eprintln!("Not Yet Implemented: publish");
