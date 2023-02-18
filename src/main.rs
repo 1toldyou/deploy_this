@@ -17,12 +17,13 @@ struct ClapCli {
 }
 
 fn main() {
-    println!("Hello, world!");
+    println!("Deploy This");
 
     let clap_args = ClapCli::parse();
 
     match clap_args.mode.to_owned().as_str() {
         "generate-example" => {
+            println!("Generating example.dplt.toml");
             init_config_file("example.dplt.toml").expect("failed to generate example.dplt.toml");
             exit(0);
         },
