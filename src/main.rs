@@ -6,6 +6,7 @@ use std::env;
 use std::process::exit;
 
 use clap::{Parser};
+
 #[macro_use]
 extern crate log;
 
@@ -52,7 +53,7 @@ fn main() {
         },
         "publish" => {
             info!("publishing");
-            let config = helper::config_files::read_config_file(DEFAULT_CONFIG_FILE).expect("failed to read the file");
+            let config = config_file::read_config_file(DEFAULT_CONFIG_FILE).expect("failed to read the file");
             let new_config = route::publish::publish(&config).expect("failed to publish");
             let new_config_string = toml::to_string(&new_config).expect("failed to serialize config");
             std::fs::write(DEFAULT_CONFIG_FILE, new_config_string).expect("failed to write config");
@@ -60,22 +61,22 @@ fn main() {
         },
         "get" => {
             info!("getting");
-            let config = helper::config_files::read_config_file(DEFAULT_CONFIG_FILE).expect("failed to read the file");
+            let config = config_file::read_config_file(DEFAULT_CONFIG_FILE).expect("failed to read the file");
             route::get::get(&config).expect("failed to get");
         },
         "upload-config" => {
             info!("uploading config");
-            let config = helper::config_files::read_config_file(DEFAULT_CONFIG_FILE).expect("failed to read the file");
+            let config = config_file::read_config_file(DEFAULT_CONFIG_FILE).expect("failed to read the file");
             route::the_config_file::upload(&config).expect("failed to update the config file");
         },
         "download-config" => {
             info!("downloading config");
-            let config = helper::config_files::read_config_file(DEFAULT_CONFIG_FILE).expect("failed to read the file");
+            let config = config_file::read_config_file(DEFAULT_CONFIG_FILE).expect("failed to read the file");
             route::the_config_file::download(&config).expect("failed to download the config file");
         },
         _ => {
             info!("Default Mode");
-            let the_config = helper::config_files::read_config_file(EXAMPLE_CONFIG_FILE).expect("failed to read the file");
+            let the_config = config_file::read_config_file(EXAMPLE_CONFIG_FILE).expect("failed to read the file");
             debug!("{:?}", the_config);
         }
     }

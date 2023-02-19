@@ -1,3 +1,6 @@
+use std::error::Error;
+use std::fs;
+
 use serde_derive::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -55,4 +58,25 @@ pub fn get_default_config_file_as_target_file() -> TargetFile {
         filename: DEFAULT_CONFIG_FILE.to_string(),
         directory: "./".to_string(),
     }
+}
+
+pub fn read_config_file(filepath: &str) -> Result<ConfigFileV1, Box<dyn Error>> {
+    // the file is .toml format, so need to read it as a string first
+    let file_content = match fs::read_to_string(filepath) {
+        Ok(c) => c,
+        Err(e) => {
+            let e_msg = format!("Could not read file: {} {}", filepath, e.to_string());
+            eprintln!("{}", e_msg);
+            Err(e_msg)?
+        }
+    };
+    let parsed_config_file = match toml::from_str::<ConfigFileV1>(&file_content) {
+        Ok(p) => p,
+        Err(e) => {
+            let e_msg = format!("Could not parse file: {} {}", filepath, e.to_string());
+            eprintln!("{}", e_msg);
+            Err(e_msg)?
+        }
+    };
+    Ok(parsed_config_file)
 }
