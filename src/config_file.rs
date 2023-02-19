@@ -5,14 +5,14 @@ use serde_derive::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct ConfigFileV1 {
-    pub metadata_remote: Option<FileRemote>,
-    pub file_remote: FileRemote,
-    pub target_files: Vec<File>,
-    pub source_files: Vec<File>,
+    pub metadata_remote: Option<Remote>,
+    pub file_remote: Remote,
+    pub source_files: Vec<TargetFile>,
+    pub target_files: Vec<TargetFile>,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
-pub struct FileRemote {
+pub struct Remote {
     #[serde(rename = "type")]
     pub type_: String,
     pub url: String,
@@ -22,11 +22,18 @@ pub struct FileRemote {
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
-pub struct File {
+pub struct SourceFile {
+    pub key: String,
+    pub local_path: String,
+    pub target_filename: String,
+    pub target_directory: String,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct TargetFile {
     pub key: String,
     pub filename: String,
     pub directory: String,
-    pub version: String,
 }
 
 pub fn read_config_file(filepath: &str) -> Result<ConfigFileV1, Box<dyn Error>> {

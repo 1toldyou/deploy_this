@@ -6,7 +6,7 @@ use crate::config_file;
 pub fn init_config_file(filename: &str) -> Result<(), Box<dyn Error>> {
     let example_config = config_file::ConfigFileV1 {
         metadata_remote: None,
-        file_remote: config_file::FileRemote {
+        file_remote: config_file::Remote {
             type_: String::from("HTTP"),
             url: String::from("https://gist.githubusercontent.com/1toldyou/44b6ee75f46da98259ddd258d3a6028c/raw"),
             username: String::from(""),
@@ -14,11 +14,10 @@ pub fn init_config_file(filename: &str) -> Result<(), Box<dyn Error>> {
             access_key: String::from(""),
         },
         target_files: vec![
-            config_file::File{
+            config_file::TargetFile {
                 key: String::from("/something.txt"),
                 filename: String::from("something.txt"),
                 directory: String::from("./example-output-dir/"),
-                version: String::from("2023.2.18"),
             }
         ],
         source_files: vec![],
