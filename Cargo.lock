@@ -32,6 +32,10 @@ checksum = "262c3f7f5d61249d8c00e5546e2685cd15ebeeb1bc0f3cc5449350a1cb07319e"
 dependencies = [
  "http",
  "log",
+ "native-tls",
+ "openssl",
+ "serde",
+ "serde_json",
  "url",
  "wildmatch",
 ]
@@ -48,6 +52,7 @@ version = "0.30.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5aeeee1a5defa63cba39097a510dfe63ef53658fc8995202a610f6a8a4d03639"
 dependencies = [
+ "attohttpc",
  "dirs",
  "rust-ini",
  "serde",
@@ -193,6 +198,7 @@ dependencies = [
 name = "deploy_this"
 version = "0.1.0"
 dependencies = [
+ "aws-creds",
  "clap",
  "reqwest",
  "rust-s3",

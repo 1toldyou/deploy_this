@@ -8,19 +8,29 @@ pub fn init_config_file(filename: &str) -> Result<(), Box<dyn Error>> {
         metadata_remote: None,
         file_remote: config_file::Remote {
             type_: String::from("HTTP"),
-            url: String::from("https://gist.githubusercontent.com/1toldyou/44b6ee75f46da98259ddd258d3a6028c/raw"),
+            url: String::from("https://gist.githubusercontent.com/1toldyou/44b6ee75f46da98259ddd258d3a6028c/raw/"),
             username: String::from(""),
             password: String::from(""),
             access_key: String::from(""),
+            secret_key: String::from(""),
+            bucket_name: String::from(""),
+            bucket_region: String::from(""),
         },
+        source_files: vec![
+            config_file::SourceFile {
+                key: String::from("readme"),
+                local_path: String::from("./README.md"),
+                target_filename: String::from("README.md"),
+                target_directory: String::from("./"),
+            }
+        ],
         target_files: vec![
             config_file::TargetFile {
-                key: String::from("/something.txt"),
+                key: String::from("something.txt"),
                 filename: String::from("something.txt"),
                 directory: String::from("./example-output-dir/"),
             }
         ],
-        source_files: vec![],
     };
 
     // println!("{:?}", example_config);

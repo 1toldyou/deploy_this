@@ -1,13 +1,19 @@
-source_files = []
-
 [file_remote]
 type = "HTTP"
-url = "https://gist.githubusercontent.com/1toldyou/44b6ee75f46da98259ddd258d3a6028c/raw"
+url = "https://gist.githubusercontent.com/1toldyou/44b6ee75f46da98259ddd258d3a6028c/raw/"
 username = ""
 password = ""
 access_key = ""
+secret_key = ""
+bucket_name = ""
+
+[[source_files]]
+key = "readme"
+local_path = "./README.md"
+target_filename = "README.md"
+target_directory = "./"
 
 [[target_files]]
-key = "/something.txt"
+key = "something.txt"
 filename = "something.txt"
 directory = "./example-output-dir/"

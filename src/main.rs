@@ -30,8 +30,10 @@ fn main() {
             exit(0);
         },
         "publish" => {
-            eprintln!("Not Yet Implemented: publish");
-            exit(1);
+            println!("Not Yet Implemented: publish");
+            let config = read_config_file("dplyt.toml").expect("failed to read the file");
+            route::publish::publish(&config).expect("failed to publish");
+            exit(0);
         },
         "get" => {
             let config = read_config_file("dplyt.toml").expect("failed to read the file");

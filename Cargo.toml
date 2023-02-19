@@ -10,9 +10,10 @@ path = "src/main.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+aws-creds = "0.30.0" # DO NOT UPGRADE TO 0.34.0
 clap = { version = "4.1.6", features = ["derive"] }
 reqwest = { version = "0.11.14", features = ["blocking", "json"] }
-rust-s3 = { version = "0.32.3", features = ["sync"], default-features = false }
+rust-s3 = { version = "0.32.3", features = ["sync-native-tls"], default-features = false }
 serde = "1.0.152"
 serde_derive = "1.0.152"
 toml = "0.7.2"
