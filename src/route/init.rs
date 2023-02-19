@@ -5,6 +5,7 @@ use crate::config_file;
 
 pub fn init_config_file(filename: &str) -> Result<(), Box<dyn Error>> {
     let example_config = config_file::ConfigFileV1 {
+        edition: env!("CARGO_PKG_VERSION").to_string(),
         metadata_remote: config_file::Remote {
             type_: String::from("S3"),
             base_dir: String::from(""),

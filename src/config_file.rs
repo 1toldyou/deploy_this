@@ -5,6 +5,7 @@ use serde_derive::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct ConfigFileV1 {
+    pub edition: String,
     pub metadata_remote: Remote,
     pub file_remote: Remote,
     pub source_files: Vec<SourceFile>,
@@ -78,5 +79,14 @@ pub fn read_config_file(filepath: &str) -> Result<ConfigFileV1, Box<dyn Error>> 
             Err(e_msg)?
         }
     };
+
+    if parsed_config_file.edition != env!("CARGO_PKG_VERSION") {
+        let e_msg = format!(
+            "Config file edition does not match: `{}`, required: `{}`",
+            parsed_config_file.edition, env!("CARGO_PKG_VERSION")
+        );
+        error!("{}", e_msg);
+        Err(e_msg)?
+    }
     Ok(parsed_config_file)
 }
