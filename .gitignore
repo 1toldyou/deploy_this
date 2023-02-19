@@ -2,9 +2,9 @@
 /target
 
 # user's file
-dplt.toml
-*.dplt.toml
+dplyt.toml
+*.dplyt.toml
 
 # example file
-!example.dplt.toml
+!example.dplyt.toml
 /example-output-dir

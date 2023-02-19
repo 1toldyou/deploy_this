@@ -22,13 +22,13 @@ fn main() {
 
     match clap_args.mode.to_owned().as_str() {
         "generate-example" => {
-            println!("Generating example.dplt.toml");
-            route::init::init_config_file("example.dplt.toml").expect("failed to generate example.dplt.toml");
+            println!("Generating example.dplyt.toml");
+            route::init::init_config_file("example.dplyt.toml").expect("failed to generate example.dplt.toml");
             exit(0);
         },
         "init" => {
-            println!("Generating dplt.toml");
-            route::init::init_config_file("dplt.toml").expect("failed to init dplt.toml");
+            println!("Generating dplyt.toml");
+            route::init::init_config_file("dplyt.toml").expect("failed to init dplt.toml");
             exit(0);
         },
         "publish" => {
@@ -36,7 +36,7 @@ fn main() {
             exit(1);
         },
         "get" => {
-            let config = read_config_file("dplt.toml").expect("failed to read the file");
+            let config = read_config_file("dplyt.toml").expect("failed to read the file");
             route::get::get(&config).expect("failed to get");
             exit(0);
         },
