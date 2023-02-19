@@ -15,7 +15,7 @@ struct ClapCli {
     #[clap(short, long)]
     version: bool,
 
-    #[arg(default_value = "init")]
+    #[arg()]
     mode: String,
 
     #[clap(long)]
@@ -45,11 +45,11 @@ fn main() {
     match clap_args.mode.to_owned().as_str() {
         "generate-example" => {
             info!("Generating {}", EXAMPLE_CONFIG_FILE);
-            route::init::init_config_file(EXAMPLE_CONFIG_FILE).expect(&*format!("failed to init {}", EXAMPLE_CONFIG_FILE));
+            route::init::init_config_file(EXAMPLE_CONFIG_FILE, true).expect(&*format!("failed to init {}", EXAMPLE_CONFIG_FILE));
         },
         "init" => {
             info!("Generating {}", DEFAULT_CONFIG_FILE);
-            route::init::init_config_file(DEFAULT_CONFIG_FILE).expect(&*format!("failed to init {}", DEFAULT_CONFIG_FILE));
+            route::init::init_config_file(DEFAULT_CONFIG_FILE, false).expect(&*format!("failed to init {}", DEFAULT_CONFIG_FILE));
         },
         "publish" => {
             info!("publishing");

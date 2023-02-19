@@ -3,7 +3,7 @@ use std::fs;
 
 use crate::config_file;
 
-pub fn init_config_file(filename: &str) -> Result<(), Box<dyn Error>> {
+pub fn init_config_file(filename: &str, overwrite: bool) -> Result<(), Box<dyn Error>> {
     let example_config = config_file::ConfigFileV1 {
         edition: env!("CARGO_PKG_VERSION").to_string(),
         metadata_remote: config_file::Remote {
@@ -47,8 +47,16 @@ pub fn init_config_file(filename: &str) -> Result<(), Box<dyn Error>> {
 
     // println!("{:?}", toml_string);
 
-    // write the string to the file
-    fs::write(filename, toml_string)?;
+    // check is file exists
+    if fs::metadata(filename).is_ok() {
+        if overwrite {
+            info!("Overwriting existing config file: {}", filename);
+            fs::write(filename, toml_string)?;
+        } else {
+            info!("Config file already exists: {}", filename);
+            Err("Config file already exists")?;
+        }
+    }
 
     Ok(())
 }
