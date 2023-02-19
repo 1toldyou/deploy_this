@@ -16,6 +16,7 @@ pub struct Remote {
     #[serde(rename = "type")]
     pub type_: String,
     pub url: String,
+    pub require_credentials: bool,
     pub username: String,
     pub password: String,
     pub access_key: String,
@@ -44,10 +45,7 @@ pub fn read_config_file(filepath: &str) -> Result<ConfigFileV1, Box<dyn Error>> 
     let file_content = match fs::read_to_string(filepath) {
         Ok(c) => c,
         Err(e) => {
-            let mut e_msg = String::from("Could not read file: ");
-            e_msg.push_str(&filepath.to_string());
-            e_msg.push_str(" ");
-            e_msg.push_str(&e.to_string());
+            let e_msg = format!("Could not read file: {} {}", filepath, e.to_string());
             eprintln!("{}", e_msg);
             Err(e_msg)?
         }
@@ -55,10 +53,7 @@ pub fn read_config_file(filepath: &str) -> Result<ConfigFileV1, Box<dyn Error>> 
     let parsed_config_file = match toml::from_str::<ConfigFileV1>(&file_content) {
         Ok(p) => p,
         Err(e) => {
-            let mut e_msg = String::from("Could not parse file: ");
-            e_msg.push_str(&filepath.to_string());
-            e_msg.push_str(" ");
-            e_msg.push_str(&e.to_string());
+            let e_msg = format!("Could not parse file: {} {}", filepath, e.to_string());
             eprintln!("{}", e_msg);
             Err(e_msg)?
         }

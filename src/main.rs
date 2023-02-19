@@ -32,7 +32,10 @@ fn main() {
         "publish" => {
             println!("Not Yet Implemented: publish");
             let config = read_config_file("dplyt.toml").expect("failed to read the file");
-            route::publish::publish(&config).expect("failed to publish");
+            let new_config = route::publish::publish(&config).expect("failed to publish");
+            let new_config_string = toml::to_string(&new_config).expect("failed to serialize config");
+            std::fs::write("dplyt.toml", new_config_string).expect("failed to write config");
+
             exit(0);
         },
         "get" => {

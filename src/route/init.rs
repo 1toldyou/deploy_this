@@ -9,6 +9,7 @@ pub fn init_config_file(filename: &str) -> Result<(), Box<dyn Error>> {
         file_remote: config_file::Remote {
             type_: String::from("HTTP"),
             url: String::from("https://gist.githubusercontent.com/1toldyou/44b6ee75f46da98259ddd258d3a6028c/raw/"),
+            require_credentials: false,
             username: String::from(""),
             password: String::from(""),
             access_key: String::from(""),
