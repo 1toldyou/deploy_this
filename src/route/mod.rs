@@ -1,4 +1,4 @@
 pub mod init;
 pub mod get;
 pub mod publish;
-pub mod update;
+pub mod the_config_file;

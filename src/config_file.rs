@@ -37,3 +37,22 @@ pub struct TargetFile {
     pub filename: String,
     pub directory: String,
 }
+
+const DEFAULT_CONFIG_FILE: &str = "dplyt.toml";
+
+pub fn get_default_config_file_as_source_file() -> SourceFile {
+    return SourceFile {
+        key: DEFAULT_CONFIG_FILE.to_string(),
+        local_path: DEFAULT_CONFIG_FILE.to_string(),
+        target_filename: DEFAULT_CONFIG_FILE.to_string(),
+        target_directory: "./".to_string(),
+    }
+}
+
+pub fn get_default_config_file_as_target_file() -> TargetFile {
+    return TargetFile {
+        key: DEFAULT_CONFIG_FILE.to_string(),
+        filename: DEFAULT_CONFIG_FILE.to_string(),
+        directory: "./".to_string(),
+    }
+}

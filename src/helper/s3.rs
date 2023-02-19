@@ -52,7 +52,7 @@ pub fn upload_files(remote_config: &config_file::Remote, files: &Vec<config_file
     Ok(uploaded_files)
 }
 
-pub fn download_files(remote_config: &config_file::Remote, files: Vec<&config_file::TargetFile>) -> Result<(), Box<dyn Error>> {
+pub fn download_files(remote_config: &config_file::Remote, files: &Vec<config_file::TargetFile>) -> Result<(), Box<dyn Error>> {
     if !remote_config.type_.eq("S3") {
         Err("This function only supports S3")?;
     }

@@ -1,7 +1,4 @@
 use std::error::Error;
-use std::fs;
-
-use awscreds::Credentials;
 
 use crate::config_file;
 
