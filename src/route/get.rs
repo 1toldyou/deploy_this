@@ -4,12 +4,12 @@ use std::fs;
 use crate::config_file;
 
 pub fn get(config: &config_file::ConfigFileV1) -> Result<(), Box<dyn Error>> {
-    match config.remote.type_.as_str() {
+    match config.file_remote.type_.as_str() {
         "HTTP" => {
             println!("Remote Type: HTTP");
-            for file in &config.files {
+            for file in &config.target_files {
                 println!("File: {:?}", file);
-                let file_url = format!("{}{}", config.remote.url, file.key);
+                let file_url = format!("{}{}", config.file_remote.url, file.key);
                 println!("File URL: {}", file_url);
 
                 let mut resp = reqwest::blocking::get(&file_url)?;
@@ -30,7 +30,7 @@ pub fn get(config: &config_file::ConfigFileV1) -> Result<(), Box<dyn Error>> {
             }
         },
         _ => {
-            println!("Remote Type Not Implemented: {:?}", config.remote.type_);
+            println!("Remote Type Not Implemented: {:?}", config.file_remote.type_);
             Err("Remote Type Not Implemented")?;
         }
     }

@@ -1,11 +1,13 @@
-[remote]
+source_files = []
+
+[file_remote]
 type = "HTTP"
 url = "https://gist.githubusercontent.com/1toldyou/44b6ee75f46da98259ddd258d3a6028c/raw"
 username = ""
 password = ""
 access_key = ""
 
-[[files]]
+[[target_files]]
 key = "/something.txt"
 filename = "something.txt"
 directory = "./example-output-dir/"
