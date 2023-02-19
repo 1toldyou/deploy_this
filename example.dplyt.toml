@@ -1,3 +1,5 @@
+target_files = []
+
 [metadata_remote]
 type = "S3"
 url = "https://gateway.storjshare.io"
@@ -10,8 +12,8 @@ bucket_name = ""
 bucket_region = ""
 
 [file_remote]
-type = "HTTP"
-url = "https://gist.githubusercontent.com/1toldyou/44b6ee75f46da98259ddd258d3a6028c/raw/"
+type = "S3"
+url = "https://gateway.storjshare.io"
 require_credentials = false
 username = ""
 password = ""
@@ -25,8 +27,3 @@ key = "readme"
 local_path = "./README.md"
 target_filename = "README.md"
 target_directory = "./"
-
-[[target_files]]
-key = "something.txt"
-filename = "something.txt"
-directory = "./example-output-dir/"

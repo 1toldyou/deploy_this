@@ -1,9 +1,30 @@
 use std::error::Error;
+use std::fs;
 
 use awscreds::Credentials;
 
 use crate::config_file;
 
+pub fn read_config_file(filepath: &str) -> Result<config_file::ConfigFileV1, Box<dyn Error>> {
+    // the file is .toml format, so need to read it as a string first
+    let file_content = match fs::read_to_string(filepath) {
+        Ok(c) => c,
+        Err(e) => {
+            let e_msg = format!("Could not read file: {} {}", filepath, e.to_string());
+            eprintln!("{}", e_msg);
+            Err(e_msg)?
+        }
+    };
+    let parsed_config_file = match toml::from_str::<config_file::ConfigFileV1>(&file_content) {
+        Ok(p) => p,
+        Err(e) => {
+            let e_msg = format!("Could not parse file: {} {}", filepath, e.to_string());
+            eprintln!("{}", e_msg);
+            Err(e_msg)?
+        }
+    };
+    Ok(parsed_config_file)
+}
 
 pub fn upload_config_file(config: &config_file::ConfigFileV1) -> Result<(), Box<dyn Error>> {
     const DEFAULT_CONFIG_FILE: &str = "dplyt.toml";

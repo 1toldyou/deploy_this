@@ -6,8 +6,6 @@ use std::process::exit;
 
 use clap::{Parser};
 
-use crate::config_file::{read_config_file};
-
 #[derive(Parser)]
 struct ClapCli {
     #[arg(default_value = "init")]
@@ -35,7 +33,7 @@ fn main() {
         },
         "publish" => {
             println!("publishing");
-            let config = read_config_file(DEFAULT_CONFIG_FILE).expect("failed to read the file");
+            let config = helper::read_config_file(DEFAULT_CONFIG_FILE).expect("failed to read the file");
             let new_config = route::publish::publish(&config).expect("failed to publish");
             let new_config_string = toml::to_string(&new_config).expect("failed to serialize config");
             std::fs::write(DEFAULT_CONFIG_FILE, new_config_string).expect("failed to write config");
@@ -43,13 +41,18 @@ fn main() {
             exit(0);
         },
         "get" => {
-            let config = read_config_file(DEFAULT_CONFIG_FILE).expect("failed to read the file");
+            let config = helper::read_config_file(DEFAULT_CONFIG_FILE).expect("failed to read the file");
             route::get::get(&config).expect("failed to get");
+            exit(0);
+        },
+        "update" => {
+            let config = helper::read_config_file(DEFAULT_CONFIG_FILE).expect("failed to read the file");
+            route::update::update(&config).expect("failed to update");
             exit(0);
         },
         _ => {
             println!("Default Mode!");
-            let the_config = read_config_file(EXAMPLE_CONFIG_FILE).expect("failed to read the file");
+            let the_config = helper::read_config_file(EXAMPLE_CONFIG_FILE).expect("failed to read the file");
             println!("{:?}", the_config);
             exit(0);
         }

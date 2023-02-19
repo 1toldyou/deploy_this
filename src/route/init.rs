@@ -17,8 +17,8 @@ pub fn init_config_file(filename: &str) -> Result<(), Box<dyn Error>> {
             bucket_region: String::from(""),
         },
         file_remote: config_file::Remote {
-            type_: String::from("HTTP"),
-            url: String::from("https://gist.githubusercontent.com/1toldyou/44b6ee75f46da98259ddd258d3a6028c/raw/"),
+            type_: String::from("S3"),
+            url: String::from("https://gateway.storjshare.io"),
             require_credentials: false,
             username: String::from(""),
             password: String::from(""),
@@ -35,13 +35,7 @@ pub fn init_config_file(filename: &str) -> Result<(), Box<dyn Error>> {
                 target_directory: String::from("./"),
             }
         ],
-        target_files: vec![
-            config_file::TargetFile {
-                key: String::from("something.txt"),
-                filename: String::from("something.txt"),
-                directory: String::from("./example-output-dir/"),
-            }
-        ],
+        target_files: vec![],
     };
 
     // println!("{:?}", example_config);
