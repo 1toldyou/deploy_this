@@ -2,6 +2,7 @@ target_files = []
 
 [metadata_remote]
 type = "S3"
+base_dir = ""
 url = "https://gateway.storjshare.io"
 require_credentials = true
 username = ""
@@ -13,6 +14,7 @@ bucket_region = ""
 
 [file_remote]
 type = "S3"
+base_dir = ""
 url = "https://gateway.storjshare.io"
 require_credentials = false
 username = ""
