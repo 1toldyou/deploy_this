@@ -3,6 +3,8 @@ use std::fs;
 
 use serde_derive::{Deserialize, Serialize};
 
+use crate::helper::check_version::is_same_major_or_minor_version;
+
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct ConfigFileV1 {
     pub edition: String,
@@ -80,13 +82,14 @@ pub fn read_config_file(filepath: &str) -> Result<ConfigFileV1, Box<dyn Error>> 
         }
     };
 
-    if parsed_config_file.edition != env!("CARGO_PKG_VERSION") {
+    if !is_same_major_or_minor_version(&parsed_config_file.edition) {
         let e_msg = format!(
-            "Config file edition does not match: `{}`, required: `{}`",
+            "Config file edition does not match: `{}`, required: `^{}`",
             parsed_config_file.edition, env!("CARGO_PKG_VERSION")
         );
         error!("{}", e_msg);
         Err(e_msg)?
     }
+
     Ok(parsed_config_file)
 }
