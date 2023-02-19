@@ -11,20 +11,35 @@ extern crate log;
 
 #[derive(Parser)]
 struct ClapCli {
+    #[clap(short, long)]
+    version: bool,
+
     #[arg(default_value = "init")]
     mode: String,
+
+    #[clap(long)]
+    debug: bool,
 }
 
-fn main() {
-    // TODO: better way to set log level
-    env::set_var("RUST_LOG", "debug");
-    env_logger::init();
-    info!("Deploy This v{}", env!("CARGO_PKG_VERSION"));
+const EXAMPLE_CONFIG_FILE: &str = "example.dplyt.toml";
+const DEFAULT_CONFIG_FILE: &str = "dplyt.toml";
 
+fn main() {
     let clap_args = ClapCli::parse();
 
-    const EXAMPLE_CONFIG_FILE: &str = "example.dplyt.toml";
-    const DEFAULT_CONFIG_FILE: &str = "dplyt.toml";
+    if clap_args.version {
+        println!("Deploy This v{}", env!("CARGO_PKG_VERSION"));
+        exit(0);
+    }
+
+    // TODO: better way to set log level
+    if clap_args.debug {
+        env::set_var("RUST_LOG", "debug");
+    } else {
+        env::set_var("RUST_LOG", "info");
+    }
+    env_logger::init();
+    info!("Deploy This v{}", env!("CARGO_PKG_VERSION"));
 
     match clap_args.mode.to_owned().as_str() {
         "generate-example" => {
