@@ -28,7 +28,9 @@ pub fn update(config: &config_file::ConfigFileV1) -> Result<(), Box<dyn Error>> 
 
             debug!("Bucket: {:?}", bucket);
 
-            let resp: s3::request_trait::ResponseData = bucket.get_object(&DEFAULT_CONFIG_FILE)?;
+            let new_key = format!("{}{}", config.file_remote.base_dir, DEFAULT_CONFIG_FILE);
+            debug!("Remote Path: {}", new_key);
+            let resp: s3::request_trait::ResponseData = bucket.get_object(new_key)?;
 
             debug!("Status: {}", resp.status_code());
 

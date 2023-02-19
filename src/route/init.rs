@@ -7,6 +7,7 @@ pub fn init_config_file(filename: &str) -> Result<(), Box<dyn Error>> {
     let example_config = config_file::ConfigFileV1 {
         metadata_remote: config_file::Remote {
             type_: String::from("S3"),
+            base_dir: String::from(""),
             url: String::from("https://gateway.storjshare.io"),
             require_credentials: true,
             username: String::from(""),
@@ -18,6 +19,7 @@ pub fn init_config_file(filename: &str) -> Result<(), Box<dyn Error>> {
         },
         file_remote: config_file::Remote {
             type_: String::from("S3"),
+            base_dir: String::from(""),
             url: String::from("https://gateway.storjshare.io"),
             require_credentials: false,
             username: String::from(""),

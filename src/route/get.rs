@@ -50,7 +50,9 @@ pub fn get(config: &config_file::ConfigFileV1) -> Result<(), Box<dyn Error>> {
 
             for file in &config.target_files {
                 debug!("File: {:?}", file);
-                let object_response: s3::request_trait::ResponseData = bucket.get_object(&file.key)?;
+                let new_key = format!("{}{}", config.file_remote.base_dir, file.key);
+                debug!("Remote Path: {}", new_key);
+                let object_response: s3::request_trait::ResponseData = bucket.get_object(&new_key)?;
 
                 debug!("Status: {}", object_response.status_code());
 

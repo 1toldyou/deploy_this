@@ -12,6 +12,7 @@ pub struct ConfigFileV1 {
 pub struct Remote {
     #[serde(rename = "type")]
     pub type_: String,
+    pub base_dir: String,
     pub url: String,
     pub require_credentials: bool,
     pub username: String,

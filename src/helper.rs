@@ -47,7 +47,9 @@ pub fn upload_config_file(config: &config_file::ConfigFileV1) -> Result<(), Box<
                 )?,
             ).expect("failed to create bucket");
 
-            bucket.put_object(DEFAULT_CONFIG_FILE, config_file_string.as_bytes())?;
+            let new_key = format!("{}{}", config.file_remote.base_dir, DEFAULT_CONFIG_FILE);
+            debug!("Remote Path: {}", new_key);
+            bucket.put_object(new_key, config_file_string.as_bytes())?;
         },
         _ => {
             println!("Remote Type Not Implemented: {:?}", config.metadata_remote.type_);

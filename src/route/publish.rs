@@ -38,7 +38,10 @@ pub fn publish(config: &config_file::ConfigFileV1) -> Result<config_file::Config
                         Err(e_msg)?
                     }
                 };
-                bucket.put_object(&file.key, file_content.as_bytes())?;
+
+                let new_key = format!("{}{}", config.file_remote.base_dir, file.key);
+                debug!("Key: {}", new_key);
+                bucket.put_object(new_key, file_content.as_bytes())?;
 
                 uploaded_files.push(config_file::TargetFile {
                     key: file.key.clone(),
