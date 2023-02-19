@@ -1,5 +1,6 @@
-mod config_file;
 mod route;
+mod config_file;
+mod helper;
 
 use std::process::exit;
 
@@ -14,38 +15,41 @@ struct ClapCli {
 }
 
 fn main() {
-    println!("Deploy This");
+    println!("Deploy This v{}", env!("CARGO_PKG_VERSION"));
 
     let clap_args = ClapCli::parse();
 
+    const EXAMPLE_CONFIG_FILE: &str = "example.dplyt.toml";
+    const DEFAULT_CONFIG_FILE: &str = "dplyt.toml";
+
     match clap_args.mode.to_owned().as_str() {
         "generate-example" => {
-            println!("Generating example.dplyt.toml");
-            route::init::init_config_file("example.dplyt.toml").expect("failed to generate example.dplt.toml");
+            println!("Generating {}", EXAMPLE_CONFIG_FILE);
+            route::init::init_config_file(EXAMPLE_CONFIG_FILE).expect(&*format!("failed to init {}", EXAMPLE_CONFIG_FILE));
             exit(0);
         },
         "init" => {
-            println!("Generating dplyt.toml");
-            route::init::init_config_file("dplyt.toml").expect("failed to init dplt.toml");
+            println!("Generating {}", DEFAULT_CONFIG_FILE);
+            route::init::init_config_file(DEFAULT_CONFIG_FILE).expect(&*format!("failed to init {}", DEFAULT_CONFIG_FILE));
             exit(0);
         },
         "publish" => {
-            println!("Not Yet Implemented: publish");
-            let config = read_config_file("dplyt.toml").expect("failed to read the file");
+            println!("publishing");
+            let config = read_config_file(DEFAULT_CONFIG_FILE).expect("failed to read the file");
             let new_config = route::publish::publish(&config).expect("failed to publish");
             let new_config_string = toml::to_string(&new_config).expect("failed to serialize config");
-            std::fs::write("dplyt.toml", new_config_string).expect("failed to write config");
-
+            std::fs::write(DEFAULT_CONFIG_FILE, new_config_string).expect("failed to write config");
+            helper::upload_config_file(&new_config).expect("failed to upload config");
             exit(0);
         },
         "get" => {
-            let config = read_config_file("dplyt.toml").expect("failed to read the file");
+            let config = read_config_file(DEFAULT_CONFIG_FILE).expect("failed to read the file");
             route::get::get(&config).expect("failed to get");
             exit(0);
         },
         _ => {
             println!("Default Mode!");
-            let the_config = read_config_file("example.dplt.toml").expect("failed to read the file");
+            let the_config = read_config_file(EXAMPLE_CONFIG_FILE).expect("failed to read the file");
             println!("{:?}", the_config);
             exit(0);
         }

@@ -5,7 +5,7 @@ use serde_derive::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct ConfigFileV1 {
-    pub metadata_remote: Option<Remote>,
+    pub metadata_remote: Remote,
     pub file_remote: Remote,
     pub source_files: Vec<SourceFile>,
     pub target_files: Vec<TargetFile>,

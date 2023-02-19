@@ -54,8 +54,6 @@ pub fn get(config: &config_file::ConfigFileV1) -> Result<(), Box<dyn Error>> {
 
                 println!("Status: {}", object_response.status_code());
 
-                let file_content = object_response.bytes().to_vec();
-
                 if !file.directory.is_empty() {
                     println!("Directory: {}", file.directory);
                     fs::create_dir_all(&file.directory)?;
@@ -63,7 +61,7 @@ pub fn get(config: &config_file::ConfigFileV1) -> Result<(), Box<dyn Error>> {
 
                 let file_path = format!("{}{}", file.directory, file.filename);
                 println!("File Path: {}", file_path);
-                fs::write(file_path, file_content)?;
+                fs::write(file_path, object_response.bytes().to_vec())?;
             }
         },
         _ => {

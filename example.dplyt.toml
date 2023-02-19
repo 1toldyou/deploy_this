@@ -1,11 +1,24 @@
-[file_remote]
-type = "HTTP"
-url = "https://gist.githubusercontent.com/1toldyou/44b6ee75f46da98259ddd258d3a6028c/raw/"
+[metadata_remote]
+type = "S3"
+url = "https://gateway.storjshare.io"
+require_credentials = true
 username = ""
 password = ""
 access_key = ""
 secret_key = ""
 bucket_name = ""
+bucket_region = ""
+
+[file_remote]
+type = "HTTP"
+url = "https://gist.githubusercontent.com/1toldyou/44b6ee75f46da98259ddd258d3a6028c/raw/"
+require_credentials = false
+username = ""
+password = ""
+access_key = ""
+secret_key = ""
+bucket_name = ""
+bucket_region = ""
 
 [[source_files]]
 key = "readme"

@@ -5,7 +5,17 @@ use crate::config_file;
 
 pub fn init_config_file(filename: &str) -> Result<(), Box<dyn Error>> {
     let example_config = config_file::ConfigFileV1 {
-        metadata_remote: None,
+        metadata_remote: config_file::Remote {
+            type_: String::from("S3"),
+            url: String::from("https://gateway.storjshare.io"),
+            require_credentials: true,
+            username: String::from(""),
+            password: String::from(""),
+            access_key: String::from(""),
+            secret_key: String::from(""),
+            bucket_name: String::from(""),
+            bucket_region: String::from(""),
+        },
         file_remote: config_file::Remote {
             type_: String::from("HTTP"),
             url: String::from("https://gist.githubusercontent.com/1toldyou/44b6ee75f46da98259ddd258d3a6028c/raw/"),
