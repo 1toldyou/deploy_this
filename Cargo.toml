@@ -12,6 +12,8 @@ path = "src/main.rs"
 [dependencies]
 aws-creds = "0.30.0" # DO NOT UPGRADE TO 0.34.0
 clap = { version = "4.1.6", features = ["derive"] }
+env_logger = "0.10.0"
+log = "0.4.17"
 reqwest = { version = "0.11.14", features = ["blocking", "json"] }
 rust-s3 = { version = "0.32.3", features = ["sync-native-tls"], default-features = false }
 serde = "1.0.152"

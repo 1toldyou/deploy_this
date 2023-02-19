@@ -10,7 +10,7 @@ pub fn update(config: &config_file::ConfigFileV1) -> Result<(), Box<dyn Error>> 
 
     match config.file_remote.type_.as_str() {
         "S3" => {
-            println!("Remote Type: S3");
+            info!("Remote Type: S3");
             let bucket = s3::Bucket::new(
                 &config.file_remote.bucket_name,
                 s3::Region::Custom {
@@ -26,16 +26,16 @@ pub fn update(config: &config_file::ConfigFileV1) -> Result<(), Box<dyn Error>> 
                 )?,
             ).expect("failed to create bucket");
 
-            println!("Bucket: {:?}", bucket);
+            debug!("Bucket: {:?}", bucket);
 
             let resp: s3::request_trait::ResponseData = bucket.get_object(&DEFAULT_CONFIG_FILE)?;
 
-            println!("Status: {}", resp.status_code());
+            debug!("Status: {}", resp.status_code());
 
             fs::write(DEFAULT_CONFIG_FILE, resp.bytes().to_vec())?;
         }
         _ => {
-            println!("Remote Type Not Implemented: {:?}", config.file_remote.type_);
+            error!("Remote Type Not Implemented: {:?}", config.file_remote.type_);
             Err("Remote Type Not Implemented")?;
         }
     }

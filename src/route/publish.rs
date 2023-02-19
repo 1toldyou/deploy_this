@@ -10,7 +10,7 @@ pub fn publish(config: &config_file::ConfigFileV1) -> Result<config_file::Config
 
     match config.file_remote.type_.as_str() {
         "S3" => {
-            println!("Remote Type: S3");
+            info!("Remote Type: S3");
             let bucket = s3::Bucket::new(
                 &config.file_remote.bucket_name,
                 s3::Region::Custom {
@@ -26,15 +26,15 @@ pub fn publish(config: &config_file::ConfigFileV1) -> Result<config_file::Config
                 )?,
             ).expect("failed to create bucket");
 
-            println!("Bucket: {:?}", bucket);
+            debug!("Bucket: {:?}", bucket);
 
             for file in &config.source_files {
-                println!("Uploading file: {:?}", file);
+                info!("Uploading file: {:?}", file);
                 let file_content = match fs::read_to_string(&file.local_path) {
                     Ok(c) => c,
                     Err(e) => {
                         let e_msg = format!("Could not read file: {} {}", file.local_path, e.to_string());
-                        eprintln!("{}", e_msg);
+                        error!("{}", e_msg);
                         Err(e_msg)?
                     }
                 };
@@ -49,7 +49,7 @@ pub fn publish(config: &config_file::ConfigFileV1) -> Result<config_file::Config
             }
         }
         _ => {
-            println!("Remote Type Not Implemented: {:?}", config.file_remote.type_);
+            error!("Remote Type Not Implemented: {:?}", config.file_remote.type_);
             Err("Remote Type Not Implemented")?;
         }
     }
