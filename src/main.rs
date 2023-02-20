@@ -34,6 +34,7 @@ fn main() {
     info!("Deploy This v{}", env!("CARGO_PKG_VERSION"));
 
     match clap_args.mode {
+        MySubCommands::Version => {},
         MySubCommands::Get => {
             info!("getting");
             let config = match config_file::read_config_file(DEFAULT_CONFIG_FILE) {
@@ -44,7 +45,7 @@ fn main() {
                 }
             };
             route::get::get(&config).expect("failed to get");
-        }
+        },
         MySubCommands::Push => {
             info!("publishing");
             let config = match config_file::read_config_file(DEFAULT_CONFIG_FILE) {
@@ -55,7 +56,7 @@ fn main() {
                 }
             };
             route::publish::publish(&config).expect("failed to push");
-        }
+        },
         MySubCommands::Config { subcommand } => {
             match subcommand {
                 ConfigSubcommands::Init { overwrite } => {
@@ -66,7 +67,7 @@ fn main() {
                             error!("Could not init config file: {}", e.to_string());
                         }
                     };
-                }
+                },
                 ConfigSubcommands::Download => {
                     info!("downloading config");
                     let config = match config_file::read_config_file(DEFAULT_CONFIG_FILE) {
@@ -82,7 +83,7 @@ fn main() {
                             error!("Could not download config file: {}", e.to_string());
                         }
                     };
-                }
+                },
                 ConfigSubcommands::Upload => {
                     info!("uploading config");
                     let config = match config_file::read_config_file(DEFAULT_CONFIG_FILE) {
@@ -98,7 +99,7 @@ fn main() {
                             error!("Could not upload config file: {}", e.to_string());
                         }
                     };
-                }
+                },
                 ConfigSubcommands::Load { config_file_base64 } => {
                     info!("loading config");
                     match route::the_config_file::write_config_file_from_base64(DEFAULT_CONFIG_FILE, &config_file_base64) {
@@ -107,7 +108,7 @@ fn main() {
                             error!("Could not load config file: {}", e.to_string());
                         }
                     };
-                }
+                },
                 ConfigSubcommands::Share => {
                     info!("sharing config file");
                     match route::the_config_file::share_config_file(DEFAULT_CONFIG_FILE) {
@@ -116,24 +117,24 @@ fn main() {
                             error!("Could not share config file: {}", e.to_string());
                         }
                     };
-                }
+                },
             }
-        }
+        },
         MySubCommands::Dev { subcommand } => {
             match subcommand {
                 DevSubcommands::GenerateExample => {
                     info!("Generating {}", EXAMPLE_CONFIG_FILE);
                     route::init::init_config_file(EXAMPLE_CONFIG_FILE, true, false).expect(&*format!("failed to init {}", EXAMPLE_CONFIG_FILE));
-                }
+                },
             }
-        }
+        },
         MySubCommands::Meta { subcommand } => {
             match subcommand {
                 MetaSubcommands::Update => {
                     info!("updating");
                     route::update::self_update().expect("failed to self-update");
-                }
+                },
             }
-        }
+        },
     }
 }

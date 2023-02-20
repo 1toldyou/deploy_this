@@ -14,6 +14,9 @@ pub struct ClapCli {
 
 #[derive(Subcommand)]
 pub enum MySubCommands {
+    /// Show version
+    Version,
+
     /// Download all TargetFile(s) from the file_remote
     Get,
 

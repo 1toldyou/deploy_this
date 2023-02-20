@@ -1,5 +1,5 @@
 name = ""
-edition = "0.5.6"
+edition = "0.5.7"
 version = "0.0.0"
 target_files = []
 

@@ -2,7 +2,6 @@ use std::error::Error;
 use std::fs;
 
 use crate::config_file;
-use crate::helper::interactive_cli;
 
 pub fn init_config_file(filename: &str, overwrite: bool, ask_question: bool) -> Result<(), Box<dyn Error>> {
     let mut example_config = config_file::ConfigFileV1 {
@@ -50,17 +49,20 @@ pub fn init_config_file(filename: &str, overwrite: bool, ask_question: bool) -> 
 
     if ask_question {
         println!("Fill out for the config file, you can leave it empty and change it later.");
-        example_config.name = interactive_cli::ask_single_line("Name").unwrap();
-        let remote_type = interactive_cli::select_from_list("Remote Type", &vec!["S3"], true).unwrap();
+        example_config.name = dialoguer::Input::<String>::new().with_prompt("Name").interact()?;
+        let remote_types = vec!["S3", "FTP"];
+        let remote_type_index = dialoguer::Select::new().with_prompt("Remote Type").items(&remote_types).interact()?;
+        let remote_type = remote_types[remote_type_index].to_string();
         example_config.metadata_remote.type_ = remote_type.clone();
         example_config.file_remote.type_ = remote_type.clone();
         match remote_type.as_str() {
             "S3" => {
-                let bucket_name = interactive_cli::ask_single_line("Bucket Name").unwrap();
-                example_config.metadata_remote.bucket_name = bucket_name.clone();
-                example_config.file_remote.bucket_name = bucket_name.clone();
+                example_config.metadata_remote.bucket_name = dialoguer::Input::<String>::new().with_prompt("Bucket Name").interact()?;
+                example_config.file_remote.bucket_name = example_config.metadata_remote.bucket_name.clone();
             },
-            _ => {}
+            _ => {
+                info!("Not implemented yet: {}", remote_type);
+            }
         }
     }
 

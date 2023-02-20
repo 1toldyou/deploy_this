@@ -1,5 +1,7 @@
 use rustyline::error::ReadlineError;
 use rustyline::{DefaultEditor, Result};
+
+#[allow(dead_code)]
 pub fn ask_single_line(question: &str) -> Result<String> {
     let mut rl = DefaultEditor::new()?;
     let readline = rl.readline(format!("{}: ", question).as_str());
@@ -23,6 +25,7 @@ pub fn ask_single_line(question: &str) -> Result<String> {
     }
 }
 
+#[allow(dead_code)]
 pub fn select_from_list(question: &str, list: &[&str], allow_default: bool) -> Result<String> {
     let mut rl = DefaultEditor::new()?;
     let mut index = 0;
