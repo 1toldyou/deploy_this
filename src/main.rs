@@ -20,13 +20,16 @@ struct ClapCli {
 
     #[clap(long)]
     debug: bool,
+
+    #[clap(long)]
+    overwrite: bool,
 }
 
 const EXAMPLE_CONFIG_FILE: &str = "example.dplyt.toml";
 const DEFAULT_CONFIG_FILE: &str = "dplyt.toml";
 
 fn main() {
-    let clap_args = ClapCli::parse();
+    let clap_args: ClapCli = ClapCli::parse();
 
     if clap_args.version {
         println!("Deploy This v{}", env!("CARGO_PKG_VERSION"));
@@ -49,7 +52,7 @@ fn main() {
         },
         "init" => {
             info!("Generating {}", DEFAULT_CONFIG_FILE);
-            route::init::init_config_file(DEFAULT_CONFIG_FILE, false).expect(&*format!("failed to init {}", DEFAULT_CONFIG_FILE));
+            route::init::init_config_file(DEFAULT_CONFIG_FILE, clap_args.overwrite).expect(&*format!("failed to init {}", DEFAULT_CONFIG_FILE));
         },
         "publish" => {
             info!("publishing");

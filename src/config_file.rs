@@ -8,6 +8,7 @@ use crate::helper::check_version::is_same_major_or_minor_version;
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct ConfigFileV1 {
     pub edition: String,
+    pub version: String,
     pub metadata_remote: Remote,
     pub file_remote: Remote,
     pub source_files: Vec<SourceFile>,
@@ -20,13 +21,15 @@ pub struct Remote {
     pub type_: String,
     pub base_dir: String,
     pub url: String,
-    pub require_credentials: bool,
     pub username: String,
     pub password: String,
     pub access_key: String,
     pub secret_key: String,
     pub bucket_name: String,
     pub bucket_region: String,
+    pub require_credentials: bool,
+    pub ignore_version: bool,
+    pub ignore_checksum: bool,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -42,6 +45,8 @@ pub struct TargetFile {
     pub key: String,
     pub filename: String,
     pub directory: String,
+    pub version: String,
+    pub checksum: String,
 }
 
 const DEFAULT_CONFIG_FILE: &str = "dplyt.toml";
@@ -60,6 +65,8 @@ pub fn get_default_config_file_as_target_file() -> TargetFile {
         key: DEFAULT_CONFIG_FILE.to_string(),
         filename: DEFAULT_CONFIG_FILE.to_string(),
         directory: "./".to_string(),
+        version: "0.0.0".to_string(),
+        checksum: "".to_string(),
     }
 }
 

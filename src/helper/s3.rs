@@ -1,7 +1,9 @@
 use std::error::Error;
 use std::fs;
+use std::io::Read;
 
 use crate::config_file;
+use crate::helper::files::{generate_hash_from_bytes_to_base64, generate_hash_from_string_to_base64};
 
 pub fn upload_files(remote_config: &config_file::Remote, files: &Vec<config_file::SourceFile>) -> Result<Vec<config_file::TargetFile>, Box<dyn Error>> {
     if !remote_config.type_.eq("S3") {
@@ -46,6 +48,8 @@ pub fn upload_files(remote_config: &config_file::Remote, files: &Vec<config_file
             key: file.key.clone(),
             filename: file.target_filename.clone(),
             directory: file.target_directory.clone(),
+            version: "-1".to_string(),
+            checksum: generate_hash_from_string_to_base64(&file_content),
         });
     }
 
@@ -85,6 +89,17 @@ pub fn download_files(remote_config: &config_file::Remote, files: &Vec<config_fi
         if !file.directory.is_empty() {
             debug!("Creating Directory: {}", file.directory);
             fs::create_dir_all(&file.directory)?;
+        }
+
+
+        if !remote_config.ignore_checksum {
+            let checksum = generate_hash_from_bytes_to_base64(object_response.bytes());
+            debug!("Checksum: {} -- {}", checksum, file.checksum);
+            if !checksum.eq(&file.checksum) {
+                let e_msg = format!("Checksums do not match: {} != {}", checksum, file.checksum);
+                error!("{}", e_msg);
+                Err(e_msg)?;
+            }
         }
 
         let file_path = format!("{}{}", file.directory, file.filename);
