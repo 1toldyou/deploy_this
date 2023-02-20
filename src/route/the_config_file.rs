@@ -39,7 +39,7 @@ pub fn share_config_file(filepath: &str) -> Result<(), Box<dyn Error>> {
     #[allow(deprecated)]
     let base64_string = base64::encode(&file_content);
 
-    println!("The {} in Base64 \ndplyt --config-file-base64 {} load-config", filepath, base64_string);
+    println!("The {} in Base64 \ndplyt config load {}", filepath, base64_string);
 
     Ok(())
 }

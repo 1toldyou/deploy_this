@@ -1,11 +1,12 @@
 mod route;
-mod config_file;
 mod helper;
+mod config_file;
 mod cli_commands;
 
 use std::env;
 use std::process::exit;
-use clap::Parser;
+
+use clap::Parser; // for get the ClapCli::parse() working
 
 #[macro_use]
 extern crate log;
@@ -38,7 +39,8 @@ fn main() {
             let config = match config_file::read_config_file(DEFAULT_CONFIG_FILE) {
                 Ok(c) => c,
                 Err(e) => {
-                    error!("Could not read config file: {}", e);
+                    error!("Could not read config file: {}", e.to_string());
+                    exit(1);
                 }
             };
             route::get::get(&config).expect("failed to get");
@@ -49,6 +51,7 @@ fn main() {
                 Ok(c) => c,
                 Err(e) => {
                     error!("Could not read config file: {}", e.to_string());
+                    exit(1);
                 }
             };
             route::publish::publish(&config).expect("failed to push");
@@ -70,6 +73,7 @@ fn main() {
                         Ok(c) => c,
                         Err(e) => {
                             error!("Could not read config file: {}", e.to_string());
+                            exit(1);
                         }
                     };
                     match route::the_config_file::download(&config) {
@@ -85,6 +89,7 @@ fn main() {
                         Ok(c) => c,
                         Err(e) => {
                             error!("Could not read config file: {}", e.to_string());
+                            exit(1);
                         }
                     };
                     match route::the_config_file::upload(&config) {
@@ -94,7 +99,15 @@ fn main() {
                         }
                     };
                 }
-                ConfigSubcommands::Load { .. } => {}
+                ConfigSubcommands::Load { config_file_base64 } => {
+                    info!("loading config");
+                    match route::the_config_file::write_config_file_from_base64(DEFAULT_CONFIG_FILE, &config_file_base64) {
+                        Ok(..) => {},
+                        Err(e) => {
+                            error!("Could not load config file: {}", e.to_string());
+                        }
+                    };
+                }
                 ConfigSubcommands::Share => {
                     info!("sharing config file");
                     match route::the_config_file::share_config_file(DEFAULT_CONFIG_FILE) {
