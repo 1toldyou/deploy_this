@@ -7,6 +7,7 @@ use crate::helper::check_version::is_same_major_or_minor_version;
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct ConfigFileV1 {
+    pub name: String,
     pub edition: String,
     pub version: String,
     pub metadata_remote: Remote,

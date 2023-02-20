@@ -17,6 +17,7 @@ pub fn publish(config: &config_file::ConfigFileV1) -> Result<config_file::Config
     }
 
     Ok(config_file::ConfigFileV1 {
+        name: config.name.clone(),
         edition: config.edition.clone(),
         version: config.version.clone(),
         metadata_remote: config.metadata_remote.clone(),
