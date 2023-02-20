@@ -4,7 +4,7 @@ use std::fs;
 use crate::config_file;
 use crate::helper::interactive_cli;
 
-pub fn init_config_file(filename: &str, overwrite: bool) -> Result<(), Box<dyn Error>> {
+pub fn init_config_file(filename: &str, overwrite: bool, ask_question: bool) -> Result<(), Box<dyn Error>> {
     let mut example_config = config_file::ConfigFileV1 {
         name: String::from(""),
         edition: env!("CARGO_PKG_VERSION").to_string(),
@@ -48,20 +48,21 @@ pub fn init_config_file(filename: &str, overwrite: bool) -> Result<(), Box<dyn E
         target_files: vec![],
     };
 
-    println!("Fill out for the config file, you can leave it empty and change it later.");
-    example_config.name = interactive_cli::ask_single_line("Name").unwrap();
-    let remote_type = interactive_cli::select_from_list("Remote Type", &vec!["S3"], true).unwrap();
-    example_config.metadata_remote.type_ = remote_type.clone();
-    example_config.file_remote.type_ = remote_type.clone();
-    match remote_type.as_str() {
-        "S3" => {
-            let bucket_name = interactive_cli::ask_single_line("Bucket Name").unwrap();
-            example_config.metadata_remote.bucket_name = bucket_name.clone();
-            example_config.file_remote.bucket_name = bucket_name.clone();
-        },
-        _ => {}
+    if ask_question {
+        println!("Fill out for the config file, you can leave it empty and change it later.");
+        example_config.name = interactive_cli::ask_single_line("Name").unwrap();
+        let remote_type = interactive_cli::select_from_list("Remote Type", &vec!["S3"], true).unwrap();
+        example_config.metadata_remote.type_ = remote_type.clone();
+        example_config.file_remote.type_ = remote_type.clone();
+        match remote_type.as_str() {
+            "S3" => {
+                let bucket_name = interactive_cli::ask_single_line("Bucket Name").unwrap();
+                example_config.metadata_remote.bucket_name = bucket_name.clone();
+                example_config.file_remote.bucket_name = bucket_name.clone();
+            },
+            _ => {}
+        }
     }
-
 
     let toml_string = toml::to_string_pretty::<config_file::ConfigFileV1>(&example_config)?;
 

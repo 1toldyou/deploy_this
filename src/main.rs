@@ -48,11 +48,11 @@ fn main() {
     match clap_args.mode.to_owned().as_str() {
         "generate-example" => {
             info!("Generating {}", EXAMPLE_CONFIG_FILE);
-            route::init::init_config_file(EXAMPLE_CONFIG_FILE, true).expect(&*format!("failed to init {}", EXAMPLE_CONFIG_FILE));
+            route::init::init_config_file(EXAMPLE_CONFIG_FILE, true, false).expect(&*format!("failed to init {}", EXAMPLE_CONFIG_FILE));
         },
         "init" => {
             info!("Generating {}", DEFAULT_CONFIG_FILE);
-            route::init::init_config_file(DEFAULT_CONFIG_FILE, clap_args.overwrite).expect(&*format!("failed to init {}", DEFAULT_CONFIG_FILE));
+            route::init::init_config_file(DEFAULT_CONFIG_FILE, clap_args.overwrite, true).expect(&*format!("failed to init {}", DEFAULT_CONFIG_FILE));
         },
         "publish" => {
             info!("publishing");
