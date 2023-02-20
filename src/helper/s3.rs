@@ -1,6 +1,5 @@
 use std::error::Error;
 use std::fs;
-use std::io::Read;
 
 use crate::config_file;
 use crate::helper::files::{generate_hash_from_bytes_to_base64, generate_hash_from_string_to_base64};
