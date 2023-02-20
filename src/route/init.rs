@@ -48,17 +48,22 @@ pub fn init_config_file(filename: &str, overwrite: bool) -> Result<(), Box<dyn E
         target_files: vec![],
     };
 
-    // println!("{:?}", example_config);
-
-    println!("Filling the config file, you can change it later.");
+    println!("Fill out for the config file, you can leave it empty and change it later.");
     example_config.name = interactive_cli::ask_single_line("Name").unwrap();
-    let remote_type = interactive_cli::select_from_list("Remote Type:", &vec!["S3".to_string()]).unwrap();
+    let remote_type = interactive_cli::select_from_list("Remote Type", &vec!["S3"], true).unwrap();
     example_config.metadata_remote.type_ = remote_type.clone();
     example_config.file_remote.type_ = remote_type.clone();
+    match remote_type.as_str() {
+        "S3" => {
+            let bucket_name = interactive_cli::ask_single_line("Bucket Name").unwrap();
+            example_config.metadata_remote.bucket_name = bucket_name.clone();
+            example_config.file_remote.bucket_name = bucket_name.clone();
+        },
+        _ => {}
+    }
+
 
     let toml_string = toml::to_string_pretty::<config_file::ConfigFileV1>(&example_config)?;
-
-    // println!("{:?}", toml_string);
 
     // check is file exists
     if fs::metadata(filename).is_ok() {
