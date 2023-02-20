@@ -1,4 +1,5 @@
 use std::error::Error;
+use std::fs;
 
 use crate::config_file;
 use crate::helper;
@@ -30,5 +31,21 @@ pub fn download(config: &config_file::ConfigFileV1) -> Result<(), Box<dyn Error>
         }
     }
 
+    Ok(())
+}
+
+pub fn share_config_file(filepath: &str) -> Result<(), Box<dyn Error>> {
+    let file_content = fs::read_to_string(filepath)?;
+    #[allow(deprecated)]
+    let base64_string = base64::encode(&file_content);
+
+    println!("The {} in Base64 \ndplyt --config-file-base64 {} load-config", filepath, base64_string);
+
+    Ok(())
+}
+
+pub fn write_config_file_from_base64(filepath: &str, encoded_config_file: &str) -> Result<(), Box<dyn Error>> {
+    #[allow(deprecated)]
+    fs::write(filepath, base64::decode(encoded_config_file)?)?;
     Ok(())
 }

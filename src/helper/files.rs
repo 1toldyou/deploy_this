@@ -1,8 +1,8 @@
 use sha2::{Sha256, Digest};
 
-#[allow(deprecated)]
 pub fn generate_hash_from_bytes_to_base64(file_bytes: &[u8]) -> String {
     let hash = Sha256::digest(file_bytes);
+    #[allow(deprecated)]
     return base64::encode(hash);
 }
 

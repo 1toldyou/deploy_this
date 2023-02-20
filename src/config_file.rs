@@ -50,7 +50,7 @@ pub struct TargetFile {
     pub checksum: String,
 }
 
-const DEFAULT_CONFIG_FILE: &str = "dplyt.toml";
+pub const DEFAULT_CONFIG_FILE: &str = "dplyt.toml";
 
 pub fn get_default_config_file_as_source_file() -> SourceFile {
     return SourceFile {

@@ -10,6 +10,8 @@ use clap::{Parser};
 #[macro_use]
 extern crate log;
 
+use config_file::DEFAULT_CONFIG_FILE;
+
 #[derive(Parser)]
 struct ClapCli {
     #[clap(short, long)]
@@ -23,10 +25,12 @@ struct ClapCli {
 
     #[clap(long)]
     overwrite: bool,
+
+    #[clap(long, default_value = "")]
+    config_file_base64: String,
 }
 
 const EXAMPLE_CONFIG_FILE: &str = "example.dplyt.toml";
-const DEFAULT_CONFIG_FILE: &str = "dplyt.toml";
 
 fn main() {
     let clap_args: ClapCli = ClapCli::parse();
@@ -100,6 +104,14 @@ fn main() {
                 }
             };
             route::the_config_file::download(&config).expect("failed to download the config file");
+        },
+        "share-config" => {
+            info!("sharing config file");
+            route::the_config_file::share_config_file(DEFAULT_CONFIG_FILE).expect("failed to share");
+        },
+        "load-config" => {
+            info!("loading config file");
+            route::the_config_file::write_config_file_from_base64(DEFAULT_CONFIG_FILE, clap_args.config_file_base64.as_str()).expect("failed to load");
         },
         _ => {
             info!("Default Mode");
