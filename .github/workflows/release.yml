@@ -22,3 +22,18 @@ jobs:
         with:
           RUSTTARGET: ${{ matrix.target }}
           EXTRA_FILES: "README.md"
+
+permissions:
+  actions: read
+  checks: read
+  contents: write
+  deployments: read
+  id-token: none
+  issues: read
+  discussions: read
+  packages: write
+  pages: read
+  pull-requests: read
+  repository-projects: read
+  security-events: read
+  statuses: read
