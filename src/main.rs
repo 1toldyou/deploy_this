@@ -58,7 +58,7 @@ fn main() {
             info!("Generating {}", DEFAULT_CONFIG_FILE);
             route::init::init_config_file(DEFAULT_CONFIG_FILE, clap_args.overwrite, true).expect(&*format!("failed to init {}", DEFAULT_CONFIG_FILE));
         },
-        "publish" => {
+        "push" => {
             info!("publishing");
             let config = match config_file::read_config_file(DEFAULT_CONFIG_FILE) {
                 Ok(c) => c,
@@ -112,6 +112,10 @@ fn main() {
         "load-config" => {
             info!("loading config file");
             route::the_config_file::write_config_file_from_base64(DEFAULT_CONFIG_FILE, clap_args.config_file_base64.as_str()).expect("failed to load");
+        },
+        "self-update" => {
+            info!("updating");
+            route::update::self_update().expect("failed to self-update");
         },
         _ => {
             info!("Default Mode");
