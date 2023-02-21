@@ -253,7 +253,7 @@ dependencies = [
 
 [[package]]
 name = "deploy_this"
-version = "0.5.7"
+version = "0.5.8"
 dependencies = [
  "aws-creds",
  "base64 0.21.0",

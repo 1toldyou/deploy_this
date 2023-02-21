@@ -55,7 +55,17 @@ fn main() {
                     exit(1);
                 }
             };
-            route::publish::publish(&config).expect("failed to push");
+            let new_config = match route::publish::publish(&config) {
+                Ok(c) => c,
+                Err(e) => {
+                    error!("Could not publish: {}", e.to_string());
+                    exit(1);
+                }
+            };
+            info!("updating config file");
+            let new_config_string = toml::to_string(&new_config).expect("failed to serialize config");
+            std::fs::write(DEFAULT_CONFIG_FILE, new_config_string).expect("failed to write config");
+            route::the_config_file::upload(&new_config).expect("failed to update the new config file");
         },
         MySubCommands::Config { subcommand } => {
             match subcommand {
