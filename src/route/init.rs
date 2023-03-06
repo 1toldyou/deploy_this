@@ -68,19 +68,21 @@ pub fn init_config_file(filename: &str, overwrite: bool, ask_question: bool) -> 
 
     let toml_string = toml::to_string_pretty::<config_file::ConfigFileV1>(&example_config)?;
 
-    // check is file exists
-    if fs::metadata(filename).is_ok() && overwrite {
-        info!("Overwriting existing config file: {}", filename);
-        fs::write(filename, toml_string)?;
-    }
-    else if !overwrite {
-        info!("Config file already exists: {}", filename);
-        Err("Config file already exists")?;
+
+    if fs::metadata(filename).is_ok() {
+        if overwrite {
+            info!("Overwriting existing config file: {}", filename);
+            fs::write(filename, toml_string)?;
+            Ok(())
+        }
+        else {
+            info!("Config file already exists: {}", filename);
+            Err("Config file already exists")?
+        }
     }
     else {
         info!("Writing config file: {}", filename);
         fs::write(filename, toml_string)?;
+        Ok(())
     }
-
-    Ok(())
 }
